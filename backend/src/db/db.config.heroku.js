@@ -1,9 +1,10 @@
+require("dotenv").config();
 module.exports = {
-	DATABASE: "mgprecintods",
-	HOST: "192.168.10.105",
-	USER: "postgres",
-	PASSWORD: "",
-	PORT: "5432",
+	DATABASE: process.env.DB.DATABASE,
+	HOST: process.env.DB.HOST,
+	USER: process.env.DB.USER,
+	PASSWORD: process.env.DB.PASSWORD,
+	PORT: process.env.DB.PORT,
 	DIALECT: "postgres",
 	pool: {
 		max: 5,
