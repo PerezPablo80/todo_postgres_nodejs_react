@@ -3,8 +3,9 @@ require("dotenv").config();
 const { User } = require("./src/db/creator");
 const https = require("https");
 
-console.log("PORT:", process.env.PORT);
+// console.log("PORT:", process.env.PORT);
 const port = process.env.PORT || 3000;
+//using adaptable.io https is supposed to not be needed
 if (process.env.TYPE === "https") {
 	https
 		.createServer(

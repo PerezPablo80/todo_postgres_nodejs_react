@@ -29,6 +29,9 @@ async function list({ query = false, qty = false }) {
 
 async function add(todo) {
 	try {
+		if (todo?.data?.task) {
+			todo = todo.data;
+		}
 		let res = await ToDo.create(todo);
 		return { status: true, data: res, msg: "ToDo added", id: res.id };
 	} catch (e) {
@@ -38,6 +41,9 @@ async function add(todo) {
 
 async function edit(todo) {
 	try {
+		if (todo?.data?.task) {
+			todo = todo.data;
+		}
 		let res = await ToDo.upsert(todo); //Add or update, based on id
 		return { status: true, data: res, msg: "Update ok" };
 	} catch (e) {
@@ -47,6 +53,9 @@ async function edit(todo) {
 
 async function remove(todo) {
 	try {
+		if (todo?.data?.id) {
+			todo = todo.data;
+		}
 		let res = await ToDo.destroy({ where: { id: todo.id } });
 		return { status: true, data: res, id: todo.id, msg: "ToDo " + todo.id + " deleted correctly" };
 	} catch (e) {
