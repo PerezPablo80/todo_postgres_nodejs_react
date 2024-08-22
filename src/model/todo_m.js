@@ -1,26 +1,39 @@
 const { ToDo, sequelize } = require("../db/creator");
 const { where, Op } = require("sequelize");
 
+//cleans if we have more than 10 elements.
+//it might show up to 11 elements but not more than that.
+function cleanList() {
+	try {
+		ToDo.findAll({ offset: 10, limit: 5000, order: [["id", "DESC"]] }).then((rs) => {
+			rs.forEach((element) => {
+				element.destroy();
+			});
+		});
+	} catch (e) {}
+}
 async function list({ query = false, qty = false }) {
 	try {
 		let res;
+		cleanList();
 		if (query) {
-			console.log("Query:", query);
+			// console.log("Query:", query);
 			let whereClauses = [];
 			const whereClause = sequelize.where(sequelize.fn("LOWER", sequelize.col("task")), "LIKE", `%${query}%`);
 			whereClauses.push(whereClause);
 			if (qty) {
-				res = await ToDo.findAll({ where: { [Op.or]: whereClauses }, limit: qty });
+				res = await ToDo.findAll({ where: { [Op.or]: whereClauses }, limit: qty, order: [["id", "DESC"]] });
 			} else {
-				res = await ToDo.findAll({ where: { [Op.or]: whereClauses } });
+				res = await ToDo.findAll({ where: { [Op.or]: whereClauses }, order: [["id", "DESC"]] });
 			}
 		} else {
 			if (qty) {
-				res = await ToDo.findAll({ limit: qty });
+				res = await ToDo.findAll({ limit: qty, order: [["id", "DESC"]] });
 			} else {
-				res = await ToDo.findAll({});
+				res = await ToDo.findAll({ order: [["id", "DESC"]] });
 			}
 		}
+
 		return { status: true, data: res };
 	} catch (e) {
 		return { status: false, error: e.toString(), msg: "Error listing ToDo's" };
