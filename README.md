@@ -11,4 +11,5 @@ if using our git, just clone the git and use `npm install` that will install all
 
 This will install the express server, the sequelize ORM for the database, the pg connector for postgress and the dotenv for easy access to the .env file
 
-you will need to modify the backend/db/db.config or db.config.heroku in order to use the database with your own credentials
+>>you will need to modify the backend/db/db.config or db.config.heroku in order to use the database with your own credentials<<
+this is changed due to the usagge of adaptable.io for deploying. With this on production the database will use an env valued:DATABASE_URL with all the information.
